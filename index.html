@@ -3,6 +3,7 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://images.pexels.com">
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -25,13 +26,22 @@
       }
     }
 
+    .image-slide {
+      /* Force GPU acceleration for smoother crossfading */
+      will-change: opacity;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+    }
+
     .btn-3d {
       position: relative;
       overflow: hidden;
       transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
       box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.4), inset 0 2px 2px rgba(255, 255, 255, 0.3), inset 0 -4px 6px rgba(0, 0, 0, 0.2);
-      /* Added to prevent text wrapping on very small screens */
-      white-space: nowrap; 
+      white-space: nowrap;
+      /* GPU Acceleration for smooth transforms */
+      will-change: transform, box-shadow;
+      transform: translateZ(0);
     }
 
     .btn-3d:active {
@@ -87,6 +97,7 @@
       background: rgba(255, 255, 255, 0.3);
       transition: all 0.25s ease;
       cursor: pointer;
+      will-change: height, background-color;
     }
 
     .dot.active {
@@ -108,6 +119,7 @@
       border: 1px solid rgba(92, 58, 33, 0.2);
       transition: all 0.25s ease;
       font-size: 16px;
+      will-change: transform, background-color;
     }
 
     .social-icon:hover {
@@ -121,7 +133,7 @@
 
 <body class="antialiassectioned bg-white font-sans relative">
   <nav class="absolute top-0 left-0 w-full p-4 md:p-6 flex justify-between items-center z-50">
-    <img src="/logo.png" alt="Company Logo" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-full bg-white/10 backdrop-blur-sm block">
+    <img src="/logo.png" alt="Company Logo" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-full bg-white/10 backdrop-blur-sm block" loading="lazy">
     <div class="relative inline-flex overflow-hidden rounded-full p-[2px]">
       <span class="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(transparent_75%,white)]"></span>
       <a href="tel:+12108837337"
@@ -133,11 +145,11 @@
 
   <section id="hero" class="relative w-full h-screen bg-white overflow-hidden flex items-center justify-start px-6 md:px-24">
     <div id="image-wrapper" class="absolute inset-0 w-full h-full z-0">
-      <img src="https://images.pexels.com/photos/7812842/pexels-photo-7812842.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-90">
-      <img src="https://images.pexels.com/photos/5231048/pexels-photo-5231048.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
-      <img src="https://images.pexels.com/photos/12267851/pexels-photo-12267851.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
-      <img src="https://images.pexels.com/photos/7656624/pexels-photo-7656624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
-      <img src="https://images.pexels.com/photos/34402938/pexels-photo-34402938.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0">
+      <img src="https://images.pexels.com/photos/7812842/pexels-photo-7812842.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-90" fetchpriority="high">
+      <img src="https://images.pexels.com/photos/5231048/pexels-photo-5231048.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0" loading="lazy" decoding="async">
+      <img src="https://images.pexels.com/photos/12267851/pexels-photo-12267851.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0" loading="lazy" decoding="async">
+      <img src="https://images.pexels.com/photos/7656624/pexels-photo-7656624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0" loading="lazy" decoding="async">
+      <img src="https://images.pexels.com/photos/34402938/pexels-photo-34402938.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0" loading="lazy" decoding="async">
     </div>
 
     <div class="relative z-30 flex flex-col items-start p-8 md:p-14 rounded-[2rem] md:rounded-[2.5rem] backdrop-blur-sm bg-black/40 border border-white/20 shadow-2xl max-w-xl">
@@ -165,7 +177,12 @@
     <style>
         @keyframes fall { 0% { top: -15%; } 100% { top: 115%; } }
         @keyframes sway { 0% { transform: translateX(0px) rotate(0deg); } 33% { transform: translateX(100px) rotate(120deg); } 66% { transform: translateX(-80px) rotate(240deg); } 100% { transform: translateX(0px) rotate(360deg); } }
-        .falling-leaf { position: absolute; pointer-events: none; animation: fall linear infinite, sway ease-in-out infinite alternate; z-index: 1; }
+        .falling-leaf { 
+            position: absolute; pointer-events: none; animation: fall linear infinite, sway ease-in-out infinite alternate; z-index: 1; 
+            /* GPU Acceleration for leaves */
+            will-change: transform, top;
+            transform: translateZ(0);
+        }
         .leaf-bg { filter: drop-shadow(0 10px 10px rgba(0,0,0,0.05)) blur(3px); opacity: 0.4; }
         .leaf-fg { filter: drop-shadow(0 20px 20px rgba(0,0,0,0.15)); opacity: 0.9; }
         .l1 { left: 5%; width: 45px; animation-duration: 14s, 6s; }
@@ -203,7 +220,7 @@
 
         <div class="flex flex-col gap-8 w-full">
             <div class="relative w-full max-w-[500px] h-[300px] md:h-[400px] mx-auto rounded-[2rem] bg-white/60 backdrop-blur-md border border-[#5C3A21]/20 shadow-xl p-2 overflow-hidden">
-                <iframe src="https://my.spline.design/mapcopycopy-ZqhYE416xvxoxA2jJ2kG9Bos-G1j/" frameborder="0" class="absolute top-1/2 left-1/2 w-full h-full -translate-x-1/2 -translate-y-1/2 scale-[1.45]"></iframe>
+                <iframe src="https://my.spline.design/mapcopycopy-ZqhYE416xvxoxA2jJ2kG9Bos-G1j/" frameborder="0" class="absolute top-1/2 left-1/2 w-full h-full -translate-x-1/2 -translate-y-1/2 scale-[1.45]" loading="lazy"></iframe>
             </div>
             
             <div class="relative flex flex-col gap-6 px-4">
@@ -222,6 +239,7 @@
   </div>
 
   <script>
+    // Image Slider functionality
     const slides = document.querySelectorAll('.image-slide');
     let currentSlide = 0;
     function crossfadeImages() {
@@ -231,27 +249,36 @@
     }
     setInterval(crossfadeImages, 4000);
 
+    // Optimized Scroll Detection using IntersectionObserver
     const dots = document.querySelectorAll('.dot');
     const sections = document.querySelectorAll('section');
-    function updateActive() {
-      let scrollMid = window.scrollY + window.innerHeight / 2;
-      sections.forEach(section => {
-        const top = section.offsetTop;
-        const bottom = top + section.offsetHeight;
-        const dot = document.querySelector(`.dot[data-target="${section.id}"]`);
-        if (dot && scrollMid >= top && scrollMid < bottom) {
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: "-50% 0px -50% 0px", // Triggers when section hits the vertical center
+      threshold: 0
+    };
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
           dots.forEach(d => d.classList.remove('active'));
-          dot.classList.add('active');
+          const activeDot = document.querySelector(`.dot[data-target="${entry.target.id}"]`);
+          if(activeDot) activeDot.classList.add('active');
         }
       });
-    }
-    window.addEventListener('scroll', () => requestAnimationFrame(updateActive));
+    }, observerOptions);
+
+    sections.forEach(section => {
+      sectionObserver.observe(section);
+    });
+
+    // Dot click scrolling
     dots.forEach(dot => {
       dot.addEventListener('click', () => {
         document.getElementById(dot.dataset.target).scrollIntoView({ behavior: 'smooth' });
       });
     });
-    updateActive();
   </script>
 </body>
 </html>
