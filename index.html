@@ -1,284 +1,424 @@
-<!Doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://images.pexels.com">
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    /* Slow, luxurious 3D light sweep */
-    @keyframes slowShimmer {
-      0% { transform: translateX(-150%) skewX(-25deg); }
-      80% { transform: translateX(250%) skewX(-25deg); }
-      100% { transform: translateX(250%) skewX(-25deg); }
-    }
-
-    /* Smooth, breathing 3D float for hover */
-    @keyframes breatheGlow {
-      0%, 100% {
-        box-shadow: 0 10px 25px -5px rgba(132, 204, 22, 0.5), inset 0 2px 2px rgba(255, 255, 255, 0.4), inset 0 -4px 6px rgba(0, 0, 0, 0.2);
-        transform: translateY(0);
-      }
-      50% {
-        box-shadow: 0 20px 35px -5px rgba(132, 204, 22, 0.8), inset 0 2px 2px rgba(255, 255, 255, 0.6), inset 0 -4px 6px rgba(0, 0, 0, 0.1);
-        transform: translateY(-3px);
-      }
-    }
-
-    .image-slide {
-      /* Force GPU acceleration for smoother crossfading */
-      will-change: opacity;
-      backface-visibility: hidden;
-      transform: translateZ(0);
-    }
-
-    .btn-3d {
-      position: relative;
-      overflow: hidden;
-      transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-      box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.4), inset 0 2px 2px rgba(255, 255, 255, 0.3), inset 0 -4px 6px rgba(0, 0, 0, 0.2);
-      white-space: nowrap;
-      /* GPU Acceleration for smooth transforms */
-      will-change: transform, box-shadow;
-      transform: translateZ(0);
-    }
-
-    .btn-3d:active {
-      transform: translateY(3px) scale(0.97);
-      box-shadow: 0 2px 5px -2px rgba(0, 0, 0, 0.5), inset 0 5px 8px rgba(0, 0, 0, 0.4);
-      animation: none;
-    }
-
-    .btn-3d::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-      animation: slowShimmer 6s infinite;
-      z-index: 10;
-      pointer-events: none;
-    }
-
-    .btn-3d-main:hover,
-    .btn-3d-main:focus {
-      animation: breatheGlow 2.5s infinite ease-in-out;
-    }
-
-    .btn-3d-sub:hover {
-      box-shadow: 0 15px 30px -5px rgba(255, 255, 255, 0.2), inset 0 2px 2px rgba(255, 255, 255, 0.4), inset 0 -4px 6px rgba(0, 0, 0, 0.2);
-      transform: translateY(-2px);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Joshua Tree - Professional Tree Services</title>
     
-    #scroll-nav {
-      position: fixed;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 9999;
-    }
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    /* Hide nav on very small screens to avoid clutter */
-    @media (max-width: 640px) {
-      #scroll-nav { right: 8px; }
-      .dot { width: 4px; height: 4px; }
-    }
-
-    .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.3);
-      transition: all 0.25s ease;
-      cursor: pointer;
-      will-change: height, background-color;
-    }
-
-    .dot.active {
-      height: 20px;
-      width: 6px;
-      border-radius: 999px;
-      background: #84cc16;
-    }
-
-    .social-icon {
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: #ffffff;
-      color: #5C3A21;
-      border: 1px solid rgba(92, 58, 33, 0.2);
-      transition: all 0.25s ease;
-      font-size: 16px;
-      will-change: transform, background-color;
-    }
-
-    .social-icon:hover {
-      background: #84cc16;
-      color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(132, 204, 22, 0.4);
-    }
-  </style>
-</head>
-
-<body class="antialiassectioned bg-white font-sans relative">
-  <nav class="absolute top-0 left-0 w-full p-4 md:p-6 flex justify-between items-center z-50">
-    <img src="/logo.png" alt="Company Logo" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-full bg-white/10 backdrop-blur-sm block" loading="lazy">
-    <div class="relative inline-flex overflow-hidden rounded-full p-[2px]">
-      <span class="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(transparent_75%,white)]"></span>
-      <a href="tel:+12108837337"
-        class="relative inline-flex items-center justify-center px-4 py-2 md:px-6 md:py-3 rounded-full text-white bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all text-sm md:text-base">
-        Call Now
-      </a>
-    </div>
-  </nav>
-
-  <section id="hero" class="relative w-full h-screen bg-white overflow-hidden flex items-center justify-start px-6 md:px-24">
-    <div id="image-wrapper" class="absolute inset-0 w-full h-full z-0">
-      <img src="https://images.pexels.com/photos/7812842/pexels-photo-7812842.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-90" fetchpriority="high">
-      <img src="https://images.pexels.com/photos/5231048/pexels-photo-5231048.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0" loading="lazy" decoding="async">
-      <img src="https://images.pexels.com/photos/12267851/pexels-photo-12267851.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0" loading="lazy" decoding="async">
-      <img src="https://images.pexels.com/photos/7656624/pexels-photo-7656624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0" loading="lazy" decoding="async">
-      <img src="https://images.pexels.com/photos/34402938/pexels-photo-34402938.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 opacity-0" loading="lazy" decoding="async">
-    </div>
-
-    <div class="relative z-30 flex flex-col items-start p-8 md:p-14 rounded-[2rem] md:rounded-[2.5rem] backdrop-blur-sm bg-black/40 border border-white/20 shadow-2xl max-w-xl">
-      <h1 class="text-3xl md:text-6xl font-extrabold text-white mb-4 tracking-tight drop-shadow-lg">
-        Professional Tree Services
-      </h1>
-      <div class="flex flex-col sm:flex-row items-center gap-4 w-full mt-6">
-        <a href="tel:+12108837337" class="btn-3d btn-3d-main w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-full font-bold text-white bg-white/10 backdrop-blur-xl border-2 border-white/50">
-          <span class="relative z-10 text-base md:text-lg tracking-wide">Free Estimate</span>
-        </a>
-        <a href="#contact" class="btn-3d btn-3d-sub w-full sm:w-auto inline-flex items-center justify-center px-6 py-4 rounded-full font-medium text-white bg-white/10 backdrop-blur-xl border border-white/20">
-          <span class="relative z-10 text-sm md:text-base tracking-wide text-gray-100">Contact us</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <div class="relative -mt-20 md:-mt-40 z-10 overflow-hidden">
-    <svg viewBox="0 0 1440 200" class="w-full h-24 md:h-48 block drop-shadow-md">
-      <path fill="#895129" d="M0,140 C360,300 1080,-100 1440,140 L1440,200 L0,200 Z"></path>
-    </svg>
-  </div>
-
-  <section id="contact" class="relative w-full min-h-screen flex items-center justify-center pt-12 pb-32 px-4 md:px-12 overflow-hidden bg-[#f7f5f2]">
     <style>
-        @keyframes fall { 0% { top: -15%; } 100% { top: 115%; } }
-        @keyframes sway { 0% { transform: translateX(0px) rotate(0deg); } 33% { transform: translateX(100px) rotate(120deg); } 66% { transform: translateX(-80px) rotate(240deg); } 100% { transform: translateX(0px) rotate(360deg); } }
-        .falling-leaf { 
-            position: absolute; pointer-events: none; animation: fall linear infinite, sway ease-in-out infinite alternate; z-index: 1; 
-            /* GPU Acceleration for leaves */
-            will-change: transform, top;
-            transform: translateZ(0);
+        /* Slow, luxurious 3D light sweep */
+        @keyframes slowShimmer {
+            0% { transform: translateX(-150%) skewX(-25deg); }
+            80% { transform: translateX(250%) skewX(-25deg); }
+            100% { transform: translateX(250%) skewX(-25deg); }
+        }
+
+        /* Smooth, breathing 3D float for hover */
+        @keyframes breatheGlow {
+            0%, 100% {
+                box-shadow: 0 10px 25px -5px rgba(132, 204, 22, 0.5), inset 0 2px 2px rgba(255, 255, 255, 0.4), inset 0 -4px 6px rgba(0, 0, 0, 0.2);
+                transform: translateY(0);
+            }
+            50% {
+                box-shadow: 0 20px 35px -5px rgba(132, 204, 22, 0.8), inset 0 2px 2px rgba(255, 255, 255, 0.6), inset 0 -4px 6px rgba(0, 0, 0, 0.1);
+                transform: translateY(-3px);
+            }
+        }
+
+        .btn-3d {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.4), inset 0 2px 2px rgba(255, 255, 255, 0.3), inset 0 -4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-3d:active {
+            transform: translateY(3px) scale(0.97);
+            box-shadow: 0 2px 5px -2px rgba(0, 0, 0, 0.5), inset 0 5px 8px rgba(0, 0, 0, 0.4);
+            animation: none;
+        }
+
+        .btn-3d::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            animation: slowShimmer 6s infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .btn-3d-main:hover,
+        .btn-3d-main:focus {
+            animation: breatheGlow 2.5s infinite ease-in-out;
+        }
+
+        .btn-3d-sub:hover {
+            box-shadow: 0 15px 30px -5px rgba(255, 255, 255, 0.2), inset 0 2px 2px rgba(255, 255, 255, 0.4), inset 0 -4px 6px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        #scroll-nav {
+            position: fixed;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 9999;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            height: 20px;
+            width: 6px;
+            border-radius: 999px;
+            background: #84cc16;
+        }
+
+        .custom-input {
+            border: 1px solid #e7e5e4;
+            border-radius: 0.75rem;
+            padding: 0.6rem 1rem; /* Slightly smaller padding for mobile */
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-size: 0.875rem;
+            width: 100%;
+            background: #fff;
+            color: #1c1917;
+        }
+        
+        @media (min-width: 640px) {
+            .custom-input { padding: 0.75rem 1rem; }
+        }
+
+        .custom-input:focus {
+            border-color: #84CC16;
+            box-shadow: 0 0 0 2px rgba(132, 204, 22, 0.2);
+        }
+
+        /* Falling Leaves Animation */
+        @keyframes fall {
+            0% { top: -15%; }
+            100% { top: 115%; }
+        }
+        @keyframes sway {
+            0% { transform: translateX(0px) rotate(0deg); }
+            33% { transform: translateX(100px) rotate(120deg); }
+            66% { transform: translateX(-80px) rotate(240deg); }
+            100% { transform: translateX(0px) rotate(360deg); }
+        }
+        .falling-leaf {
+            position: absolute;
+            pointer-events: none;
+            animation: fall linear infinite, sway ease-in-out infinite alternate;
+            z-index: 1;
+            will-change: transform, top; /* Hardware acceleration for smooth device rendering */
         }
         .leaf-bg { filter: drop-shadow(0 10px 10px rgba(0,0,0,0.05)) blur(3px); opacity: 0.4; }
         .leaf-fg { filter: drop-shadow(0 20px 20px rgba(0,0,0,0.15)); opacity: 0.9; }
-        .l1 { left: 5%; width: 45px; animation-duration: 14s, 6s; }
-        .l2 { left: 15%; width: 30px; animation-duration: 18s, 7s; animation-delay: -5s; }
-        .l3 { left: 35%; width: 60px; animation-duration: 12s, 5s; }
-        .l4 { left: 55%; width: 35px; animation-duration: 16s, 8s; animation-delay: -8s; }
-    </style>
 
-    <div class="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-        <div class="flex flex-col gap-8 w-full">
-            <style>
-                .custom-input { border: 1px solid #e7e5e4; border-radius: 0.75rem; padding: 0.75rem 1rem; outline: none; transition: all 0.2s; font-size: 0.875rem; width: 100%; background: #fff; color: #1c1917; }
-                .custom-input:focus { border-color: #84CC16; box-shadow: 0 0 0 2px rgba(132, 204, 22, 0.2); }
-            </style>
-            
-            <form style="background:#fff;border-radius:2rem;padding:1.5rem;box-shadow:0 20px 40px -10px rgba(0,0,0,0.08);border:1px solid rgba(120,53,15,0.1); width:100%;" onsubmit="event.preventDefault();alert('Message sent!')">
-                <h3 style="font-size:1.5rem;font-weight:700;color:#78350F;margin-bottom:1.5rem;">Contact Us Now</h3>
-                <div style="display:flex;flex-direction:column;gap:1rem;">
-                    <div><label style="font-size:.875rem;font-weight:600;color:#78350F;display:block;margin-bottom:.375rem;">Full Name</label><input class="custom-input" placeholder="Your name" required></div>
-                    <div><label style="font-size:.875rem;font-weight:600;color:#78350F;display:block;margin-bottom:.375rem;">Email</label><input class="custom-input" type="email" placeholder="your@email.com" required></div>
-                    <div><label style="font-size:.875rem;font-weight:600;color:#78350F;display:block;margin-bottom:.375rem;">Phone</label><input class="custom-input" type="tel" placeholder="(210) 000-0000"></div>
-                    <div><label style="font-size:.875rem;font-weight:600;color:#78350F;display:block;margin-bottom:.375rem;">Message</label><textarea class="custom-input" rows="3" placeholder="Project details..." required></textarea></div>
-                    <button type="submit" style="background:#78350F;color:#fff;font-weight:700;padding:1rem;border-radius:.75rem;cursor:pointer;width:100%;text-transform:uppercase;">Send Message</button>
-                </div>
-            </form>
-
-            <div class="w-full rounded-[2rem] bg-white/70 border border-[#5C3A21]/10 backdrop-blur-xl p-6 md:p-10 shadow-2xl flex flex-col gap-5 text-left">
-                <h4 class="text-2xl font-extrabold text-[#5C3A21]">Business Details</h4>
-                <div class="flex flex-col gap-4">
-                    <div class="text-[#5C3A21] font-bold text-lg flex items-start gap-4"><span class="text-2xl">📍</span><div><p>The Joshua Tree</p><p class="text-[#5C3A21]/70">San Antonio, TX</p></div></div>
-                    <a href="tel:+12108837337" class="text-[#5C3A21] font-bold text-lg flex items-center gap-4"><span>📞</span> (210) 883-7337</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-col gap-8 w-full">
-            <div class="relative w-full max-w-[500px] h-[300px] md:h-[400px] mx-auto rounded-[2rem] bg-white/60 backdrop-blur-md border border-[#5C3A21]/20 shadow-xl p-2 overflow-hidden">
-                <iframe src="https://my.spline.design/mapcopycopy-ZqhYE416xvxoxA2jJ2kG9Bos-G1j/" frameborder="0" class="absolute top-1/2 left-1/2 w-full h-full -translate-x-1/2 -translate-y-1/2 scale-[1.45]" loading="lazy"></iframe>
-            </div>
-            
-            <div class="relative flex flex-col gap-6 px-4">
-                <div class="absolute left-8 top-2 bottom-2 w-[2px] bg-[#5C3A21]/20"></div>
-                <div class="flex items-center gap-4 relative"><div class="w-8 h-8 rounded-full bg-[#5C3A21] text-white flex items-center justify-center text-xs font-bold z-10">1</div><p class="text-[#5C3A21] font-bold text-sm">Request Estimate</p></div>
-                <div class="flex items-center gap-4 relative"><div class="w-8 h-8 rounded-full bg-[#5C3A21] text-white flex items-center justify-center text-xs font-bold z-10">2</div><p class="text-[#5C3A21] font-bold text-sm">Site Assessment</p></div>
-                <div class="flex items-center gap-4 relative"><div class="w-8 h-8 rounded-full bg-[#5C3A21] text-white flex items-center justify-center text-xs font-bold z-10">3</div><p class="text-[#5C3A21] font-bold text-sm">Schedule Service</p></div>
-            </div>
-        </div>
-    </div>
-  </section>
-
-  <div id="scroll-nav">
-    <div class="dot" data-target="hero"></div>
-    <div class="dot" data-target="contact"></div>
-  </div>
-
-  <script>
-    // Image Slider functionality
-    const slides = document.querySelectorAll('.image-slide');
-    let currentSlide = 0;
-    function crossfadeImages() {
-      slides[currentSlide].classList.replace('opacity-90', 'opacity-0');
-      currentSlide = (currentSlide + 1) % slides.length;
-      slides[currentSlide].classList.replace('opacity-0', 'opacity-90');
-    }
-    setInterval(crossfadeImages, 4000);
-
-    // Optimized Scroll Detection using IntersectionObserver
-    const dots = document.querySelectorAll('.dot');
-    const sections = document.querySelectorAll('section');
-    
-    const observerOptions = {
-      root: null,
-      rootMargin: "-50% 0px -50% 0px", // Triggers when section hits the vertical center
-      threshold: 0
-    };
-
-    const sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          dots.forEach(d => d.classList.remove('active'));
-          const activeDot = document.querySelector(`.dot[data-target="${entry.target.id}"]`);
-          if(activeDot) activeDot.classList.add('active');
+        .l1 { left: 5%; width: 45px; animation-duration: 14s, 6s; animation-delay: 0s, 0s; }
+        .l2 { left: 15%; width: 30px; animation-duration: 18s, 7s; animation-delay: -5s, -2s; }
+        .l3 { left: 35%; width: 60px; animation-duration: 12s, 5s; animation-delay: -2s, -1s; }
+        .l4 { left: 55%; width: 35px; animation-duration: 16s, 8s; animation-delay: -8s, -3s; }
+        .l5 { left: 75%; width: 50px; animation-duration: 13s, 5.5s; animation-delay: -4s, -0.5s; }
+        .l6 { left: 85%; width: 25px; animation-duration: 19s, 6.5s; animation-delay: -10s, -4s; }
+        .l7 { left: 95%; width: 55px; animation-duration: 11s, 4.5s; animation-delay: -1s, -2s; }
+        .l8 { left: 45%; width: 40px; animation-duration: 15s, 7s; animation-delay: -6s, -1.5s; }
+        
+        /* Smooth Spline Masking (No Laggy Scaling) */
+        .spline-mask {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 1.5rem;
         }
-      });
-    }, observerOptions);
 
-    sections.forEach(section => {
-      sectionObserver.observe(section);
-    });
+        .spline-mask iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* Extends exactly enough to chop the logo off the bottom */
+            height: calc(100% + 65px); 
+            border: none;
+            pointer-events: auto;
+        }
 
-    // Dot click scrolling
-    dots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        document.getElementById(dot.dataset.target).scrollIntoView({ behavior: 'smooth' });
-      });
-    });
-  </script>
+        /* Hero Image Fast Paint */
+        .image-slide {
+            will-change: opacity;
+        }
+
+    </style>
+</head>
+
+<body class="antialiased bg-white font-sans relative">
+    
+    <nav class="absolute top-0 left-0 w-full p-4 sm:p-6 flex justify-between items-center z-50">
+        <img src="/logo.png" alt="Company Logo" class="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-full bg-white/10 backdrop-blur-sm block">
+
+        <div class="relative inline-flex overflow-hidden rounded-full p-[2px]">
+            <span class="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(transparent_75%,white)]"></span>
+            <a href="tel:+12108837337" class="relative inline-flex items-center justify-center px-4 py-2 sm:px-6 sm:py-3 rounded-full text-white bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all text-xs sm:text-base font-medium">
+                Call Now
+            </a>
+        </div>
+    </nav>
+
+    <section id="hero" class="relative w-full h-screen bg-white overflow-hidden flex items-center justify-start px-6 md:px-24">
+        <div id="image-wrapper" class="absolute inset-0 w-full h-full z-0 bg-black">
+            <img fetchpriority="high" src="https://images.pexels.com/photos/7812842/pexels-photo-7812842.jpeg?cs=srgb&dl=pexels-helen1-7812842.jpg&fm=jpg&_gl=1*1okqz7j*_ga*MTU2MjQxMzk2Mi4xNzc1NjQwMzc3*_ga_8JE65Q40S6*czE3NzU5NzAyNTEkbzEzJGcxJHQxNzc1OTcxNDIyJGo2MCRsMCRoMA..$0" class="image-slide absolute inset-0 w-full h-full object-cover hue rotate-30 saturate-75 transition-opacity duration-[1500ms] ease-in-out opacity-90 z-10">
+            
+            <img loading="lazy" src="https://images.pexels.com/photos/5231048/pexels-photo-5231048.jpeg?cs=srgb&dl=pexels-shvetsa-5231048.jpg&fm=jpg&_gl=1*citfdo*_ga*MTU2MjQxMzk2Mi4xNzc1NjQwMzc3*_ga_8JE65Q40S6*czE3NzU5NzAyNTEkbzEzJGcxJHQxNzc1OTcxNTEyJGo2MCRsMCRoMA..$0" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out opacity-0 z-0">
+            
+            <img loading="lazy" src="https://images.pexels.com/photos/12267851/pexels-photo-12267851.jpeg?cs=srgb&dl=pexels-alfomedeiros-12267851.jpg&fm=jpg&_gl=1*1rdoiho*_ga*MTU2MjQxMzk2Mi4xNzc1NjQwMzc3*_ga_8JE65Q40S6*czE3NzU5NzAyNTEkbzEzJGcxJHQxNzc1OTcxNTQ3JGoyNSRsMCRoMA..$0" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out opacity-0 z-0">
+            
+            <img loading="lazy" src="https://images.pexels.com/photos/7656624/pexels-photo-7656624.jpeg?cs=srgb&dl=pexels-thirdman-7656624.jpg&fm=jpg&_gl=1*1r1pjrs*_ga*MTU2MjQxMzk2Mi4xNzc1NjQwMzc3*_ga_8JE65Q40S6*czE3NzU5NzAyNTEkbzEzJGcxJHQxNzc1OTcxNzUxJGo1OSRsMCRoMA..$0" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out opacity-0 z-0">
+            
+            <img loading="lazy" src="https://images.pexels.com/photos/34402938/pexels-photo-34402938.jpeg?cs=srgb&dl=pexels-strannik-sk-34402938.jpg&fm=jpg&_gl=1*bawzlo*_ga*MTU2MjQxMzk2Mi4xNzc1NjQwMzc3*_ga_8JE65Q40S6*czE3NzU5NzAyNTEkbzEzJGcxJHQxNzc1OTcxNzg2JGoyNCRsMCRoMA..$0" class="image-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ease-in-out opacity-0 z-0">
+        </div>
+
+        <div class="relative z-30 flex flex-col items-start p-6 sm:p-10 md:p-14 rounded-[2rem] md:rounded-[2.5rem] backdrop-blur-sm bg-black/40 border border-white/20 shadow-2xl w-full max-w-xl mt-16 md:mt-0 mx-auto md:mx-4">
+            <h1 class="text-3xl sm:text-4xl md:text-6xl font-extrabold text-white mb-2 md:mb-4 tracking-tight drop-shadow-lg leading-tight">
+                Professional Tree Services
+            </h1>
+            <h4 class="text-lg sm:text-xl md:text-2xl font-extrabold text-white mb-4 md:mb-6 tracking-tight drop-shadow-lg">
+                San Antonio, Texas
+            </h4>
+
+            <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-5 w-full mt-2 sm:mt-4">
+                <a href="tel:+12108837337" class="btn-3d btn-3d-main w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 rounded-full font-bold text-white bg-white/10 backdrop-blur-xl border border-white/50 text-center">
+                    <span class="relative z-10 text-sm sm:text-lg tracking-wide">Get a Free Estimate</span>
+                </a>
+
+                <a href="#contact" class="btn-3d btn-3d-sub w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 sm:px-6 sm:py-4 rounded-full font-medium text-white bg-white/10 backdrop-blur-xl border border-white/20 text-center">
+                    <span class="relative z-10 text-sm sm:text-base tracking-wide text-gray-100">Contact us</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="relative -mt-16 md:-mt-40 z-10 overflow-hidden pointer-events-none">
+        <svg viewBox="0 0 1440 200" class="w-full h-24 sm:h-32 md:h-48 block drop-shadow-md preserve-3d">
+            <path fill="#895129" d="M0,140 C360,300 1080,-100 1440,140 L1440,200 L0,200 Z"></path>
+        </svg>
+    </div>
+
+    <section id="contact" class="relative w-full min-h-screen flex items-center justify-center pt-8 md:pt-12 pb-32 px-4 sm:px-6 md:px-12 overflow-hidden bg-[#f7f5f2]">
+        
+        <img loading="lazy" src="leaf.png" class="falling-leaf leaf-fg l1" alt="falling leaf">
+        <img loading="lazy" src="leaf.png" class="falling-leaf leaf-bg l2" alt="falling leaf">
+        <img loading="lazy" src="leaf.png" class="falling-leaf leaf-fg l3" alt="falling leaf">
+        <img loading="lazy" src="leaf.png" class="falling-leaf leaf-bg l4" alt="falling leaf">
+        <img loading="lazy" src="leaf.png" class="falling-leaf leaf-fg l5" alt="falling leaf">
+        <img loading="lazy" src="leaf.png" class="falling-leaf leaf-bg l6" alt="falling leaf">
+        <img loading="lazy" src="leaf.png" class="falling-leaf leaf-fg l7" alt="falling leaf">
+        <img loading="lazy" src="leaf.png" class="falling-leaf leaf-bg l8" alt="falling leaf">
+
+        <div class="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-start mt-4 sm:mt-8">
+            
+            <div class="flex flex-col gap-6 sm:gap-8 w-full">
+                
+                <form class="bg-white rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-8 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.08)] border border-amber-900/10 w-full" onsubmit="event.preventDefault();alert('Message sent! We will be in touch soon.')">
+                    <h3 class="text-xl sm:text-2xl font-bold text-amber-900 mb-4 sm:mb-6 tracking-tight">Contact Us Now</h3>
+                    
+                    <div class="flex flex-col gap-4 sm:gap-5">
+                        <div>
+                            <label class="text-xs sm:text-sm font-semibold text-amber-900 block mb-1.5">Full Name</label>
+                            <input class="custom-input" placeholder="Your name" required>
+                        </div>
+                        
+                        <div>
+                            <label class="text-xs sm:text-sm font-semibold text-amber-900 block mb-1.5">Email</label>
+                            <input class="custom-input" type="email" placeholder="your@email.com" required>
+                        </div>
+                        
+                        <div>
+                            <label class="text-xs sm:text-sm font-semibold text-amber-900 block mb-1.5">Phone</label>
+                            <input class="custom-input" type="tel" placeholder="(210) 000-0000">
+                        </div>
+                        
+                        <div>
+                            <label class="text-xs sm:text-sm font-semibold text-amber-900 block mb-1.5">Message</label>
+                            <textarea class="custom-input" rows="4" placeholder="Tell us about your project..." style="resize:vertical;" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="bg-amber-900 hover:bg-amber-950 text-white font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-xl border-none cursor-pointer transition-all duration-300 text-sm sm:text-base w-full mt-2 uppercase tracking-wide hover:-translate-y-0.5 shadow-lg shadow-amber-900/20">
+                            Send Message
+                        </button>
+                    </div>
+                </form>
+
+                <div class="w-full rounded-[1.5rem] sm:rounded-[2rem] bg-white/70 border border-[#5C3A21]/10 backdrop-blur-xl p-5 sm:p-10 shadow-2xl flex flex-col gap-4 sm:gap-5 text-left">
+                    <h4 class="text-xl sm:text-2xl font-extrabold text-[#5C3A21] tracking-tight">Business Details</h4>
+                    <div class="flex flex-col gap-4 mt-2">
+                        <div class="text-[#5C3A21] font-bold text-sm sm:text-lg flex items-start gap-4">
+                            <span class="text-xl sm:text-2xl shrink-0">📍</span>
+                            <div>
+                                <p>The Joshua Tree</p>
+                                <p class="text-[#5C3A21]/70">San Antonio, TX</p>
+                            </div>
+                        </div>
+                        <a href="tel:+12108837337" class="text-[#5C3A21] hover:text-[#5C3A21]/70 transition-colors flex items-center gap-4 font-bold text-sm sm:text-lg mt-2">
+                            <span class="text-xl sm:text-2xl shrink-0">📞</span> (210) 883-7337
+                        </a>
+                        <a href="mailto:thejoshuatree_s.a@yahoo.com" class="text-[#5C3A21] hover:text-[#5C3A21]/70 transition-colors flex items-center gap-4 font-bold text-xs sm:text-lg break-all">
+                            <span class="text-xl sm:text-2xl shrink-0">✉️</span> thejoshuatree_s.a@yahoo.com
+                        </a>
+                    </div>
+                </div>
+            </div>
+                        
+            <div class="flex flex-col gap-6 sm:gap-8 w-full">
+              
+                <div class="relative w-full max-w-[500px] h-[260px] sm:h-[350px] md:h-[400px] mx-auto rounded-[1.5rem] sm:rounded-[2rem] bg-white/60 backdrop-blur-md border border-[#5C3A21]/20 shadow-xl p-2">
+                    <div class="spline-mask bg-white">
+                        <iframe 
+                            src="https://my.spline.design/mapcopycopy-ZqhYE416xvxoxA2jJ2kG9Bos-G1j/" 
+                            frameborder="0"
+                            loading="lazy"
+                            title="3D Map"
+                            style="opacity: 0.95;">
+                        </iframe>
+                    </div>
+                </div>
+                
+                <div class="w-full rounded-[1.5rem] sm:rounded-[2rem] bg-white/70 border border-[#5C3A21]/10 backdrop-blur-xl p-5 sm:p-8 shadow-2xl flex flex-col gap-4 text-left">
+                    <h4 class="text-lg sm:text-xl font-extrabold text-[#5C3A21] tracking-tight mb-2">Our Process</h4>
+                    <div class="relative flex flex-col gap-5 sm:gap-6 ml-2">
+                        <div class="absolute left-[15px] top-2 bottom-2 w-[2px] bg-[#5C3A21]/20"></div>
+                        
+                        <div class="flex items-center gap-4 relative">
+                            <div class="w-8 h-8 rounded-full bg-[#5C3A21] text-white flex items-center justify-center text-sm font-bold z-10 shrink-0">1</div>
+                            <p class="text-[#5C3A21] font-bold text-sm">Request Estimate</p>
+                        </div>
+                        
+                        <div class="flex items-center gap-4 relative">
+                            <div class="w-8 h-8 rounded-full bg-[#5C3A21] text-white flex items-center justify-center text-sm font-bold z-10 shrink-0">2</div>
+                            <p class="text-[#5C3A21] font-bold text-sm">Site Assessment</p>
+                        </div>
+                        
+                        <div class="flex items-center gap-4 relative">
+                            <div class="w-8 h-8 rounded-full bg-[#5C3A21] text-white flex items-center justify-center text-sm font-bold z-10 shrink-0">3</div>
+                            <p class="text-[#5C3A21] font-bold text-sm">Schedule Service</p>
+                        </div>
+                        
+                        <div class="flex items-center gap-4 relative">
+                            <div class="w-8 h-8 rounded-full bg-[#5C3A21] text-white flex items-center justify-center text-sm font-bold z-10 shrink-0">4</div>
+                            <p class="text-[#5C3A21] font-bold text-sm">Cleanup & Review</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full rounded-[1.5rem] sm:rounded-[2rem] bg-white/70 border border-[#5C3A21]/10 backdrop-blur-xl p-5 sm:p-8 shadow-2xl flex flex-col gap-4 text-left">
+                    <h4 class="text-lg sm:text-xl font-extrabold text-[#5C3A21] tracking-tight mb-2">Quick FAQ</h4>
+                    
+                    <div>
+                        <p class="text-[#5C3A21] font-bold text-sm">Q: Are estimates free?</p>
+                        <p class="text-[#5C3A21]/70 font-medium text-xs mt-1">A: Yes, all our initial site evaluations are 100% free.</p>
+                    </div>
+                    <div>
+                        <p class="text-[#5C3A21] font-bold text-sm mt-2">Q: Are you insured?</p>
+                        <p class="text-[#5C3A21]/70 font-medium text-xs mt-1">A: Fully licensed and insured with complete liability coverage.</p>
+                    </div>
+                    <div>
+                        <p class="text-[#5C3A21] font-bold text-sm mt-2">Q: Do you handle permits?</p>
+                        <p class="text-[#5C3A21]/70 font-medium text-xs mt-1">A: We handle all city applications and requirements for you.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <img loading="lazy" src="IMG_0383.png" alt="Bottom Bushes" class="absolute -bottom-16 left-0 w-full h-auto lg:h-[250px] object-cover object-top pointer-events-none z-0 opacity-90">
+    </section>
+
+    <div id="scroll-nav">
+        <div class="dot" data-target="hero" data-label="Home"></div>
+        <div class="dot" data-target="contact" data-label="Contact"></div>
+    </div>
+
+    <script>
+        // Hero Image Slider Script
+        const slides = document.querySelectorAll('.image-slide');
+        let currentSlide = 0;
+
+        function crossfadeImages() {
+            let previousSlide = currentSlide;
+            currentSlide = (currentSlide + 1) % slides.length;
+
+            slides[currentSlide].style.zIndex = "2";
+            slides[previousSlide].style.zIndex = "1";
+
+            slides[currentSlide].classList.remove('opacity-0');
+            slides[currentSlide].classList.add('opacity-90');
+
+            setTimeout(() => {
+                slides[previousSlide].classList.remove('opacity-90');
+                slides[previousSlide].classList.add('opacity-0');
+                slides[currentSlide].style.zIndex = "10";
+                slides[previousSlide].style.zIndex = "0";
+            }, 1500);
+        }
+
+        slides.forEach((slide, index) => {
+            slide.style.zIndex = index === 0 ? "10" : "0";
+        });
+
+        setInterval(crossfadeImages, 4500);
+    </script>
+    
+    <script>
+        // Scroll Navigation Highlight
+        const dots = document.querySelectorAll('.dot');
+        const sections = document.querySelectorAll('section');
+        
+        function updateActive() {
+            let scrollMid = window.scrollY + window.innerHeight / 2;
+            
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const bottom = top + section.offsetHeight;
+                
+                const dot = document.querySelector(`.dot[data-target="${section.id}"]`);
+                
+                if (!dot) return;
+                
+                if (scrollMid >= top && scrollMid < bottom) {
+                    dots.forEach(d => d.classList.remove('active'));
+                    dot.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', () => {
+            requestAnimationFrame(updateActive);
+        });
+        
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                document.getElementById(dot.dataset.target).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        
+        updateActive();
+    </script>
 </body>
 </html>
